@@ -399,6 +399,6 @@ FodyWeavers.xsd
 
 .idea
 
-.src/appsettings.json
+.src/APBD_HW_09.RestAPI/appsettings.json
 
-.src/appsettings.Development.json
+.src/APBD_HW_09.RestAPI/appsettings.Development.json
