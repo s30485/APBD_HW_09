@@ -47,27 +47,55 @@ app.MapGet("/api/devices", async (MasterContext db, CancellationToken ct) =>
 
 app.MapGet("/api/devices/{id:int}", async (int id, MasterContext db, CancellationToken ct) =>
 {
-    var device = await db.Devices
+    var raw = await db.Devices
         .Include(d => d.DeviceType)
-        .Include(d => d.DeviceEmployees).ThenInclude(de => de.Employee).ThenInclude(e => e.Person)
+        .Include(d => d.DeviceEmployees)
+        .ThenInclude(de => de.Employee)
+        .ThenInclude(e => e.Person)
         .Where(d => d.Id == id)
-        .Select(d => new DeviceDetailDto
+        .Select(d => new
         {
-            Name = d.Name,
+            d.Name,
             DeviceTypeName = d.DeviceType.Name,
-            IsEnabled = d.IsEnabled,
-            AdditionalProperties = JsonSerializer.Deserialize<JsonElement>(d.AdditionalProperties),
-            CurrentEmployee = d.DeviceEmployees
+            d.IsEnabled,
+            d.AdditionalProperties,
+            Current = d.DeviceEmployees
                 .Where(de => de.ReturnDate == null)
-                .Select(de => new EmployeeRef(de.Employee.Id,
-                                              de.Employee.Person.FirstName + " " + de.Employee.Person.LastName))
+                .Select(de => new {
+                    de.Employee.Id,
+                    FullName = de.Employee.Person.FirstName 
+                               + " " 
+                               + de.Employee.Person.LastName
+                })
                 .FirstOrDefault()
         })
         .FirstOrDefaultAsync(ct);
 
-    return device is not null
-        ? Results.Ok(device)
-        : Results.NotFound();
+    if (raw is null)
+        return Results.NotFound();
+    
+    JsonElement props;
+    try 
+    {
+        props = JsonSerializer.Deserialize<JsonElement>(raw.AdditionalProperties)!;
+    }
+    catch (JsonException)
+    {
+        props = default;
+    }
+    
+    var dto = new DeviceDetailDto
+    {
+        Name = raw.Name,
+        DeviceTypeName = raw.DeviceTypeName,
+        IsEnabled = raw.IsEnabled,
+        AdditionalProperties = props,
+        CurrentEmployee = raw.Current is null
+            ? null
+            : new EmployeeRef(raw.Current.Id, raw.Current.FullName)
+    };
+
+    return Results.Ok(dto);
 });
 
 app.MapPost("/api/devices", async (CreateUpdateDeviceDto dto, MasterContext db, IValidatorService validator, CancellationToken ct) =>
