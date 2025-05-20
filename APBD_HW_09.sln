@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APBD_HW_09", "APBD_HW_09\APBD_HW_09.csproj", "{DBCB8B15-A017-4E67-B1B5-F09FB61CBA4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APBD_HW_09.RestAPI", "src\APBD_HW_09.RestAPI\APBD_HW_09.RestAPI.csproj", "{5C81A702-667D-4A72-AC9D-2396CCD994E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DBCB8B15-A017-4E67-B1B5-F09FB61CBA4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBCB8B15-A017-4E67-B1B5-F09FB61CBA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBCB8B15-A017-4E67-B1B5-F09FB61CBA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBCB8B15-A017-4E67-B1B5-F09FB61CBA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C81A702-667D-4A72-AC9D-2396CCD994E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C81A702-667D-4A72-AC9D-2396CCD994E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C81A702-667D-4A72-AC9D-2396CCD994E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C81A702-667D-4A72-AC9D-2396CCD994E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
