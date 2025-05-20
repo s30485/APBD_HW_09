@@ -402,3 +402,7 @@ FodyWeavers.xsd
 .src/APBD_HW_09.RestAPI/appsettings.json
 
 .src/APBD_HW_09.RestAPI/appsettings.Development.json
+
+appsettings.json
+
+appsettings.Development.json
