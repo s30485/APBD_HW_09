@@ -12,3 +12,8 @@ to run the app correctly, in appsettings you should include a connection string 
     "DefaultConnection": "YOUR-CONNECTION-STRING"
   }
 }
+
+The reasons that I did not split my solution into many projects are:
+1. The project is not complicated enough, so there is no need to split it
+2. I don't reuse the DTOs anywhere else, so no need to split
+3. The project is easier to read and understand, so you have less to check 😏👍
