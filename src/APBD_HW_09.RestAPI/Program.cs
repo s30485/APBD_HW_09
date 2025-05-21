@@ -61,11 +61,10 @@ app.MapGet("/api/devices/{id:int}", async (int id, MasterContext db, Cancellatio
             d.AdditionalProperties,
             Current = d.DeviceEmployees
                 .Where(de => de.ReturnDate == null)
-                .Select(de => new {
+                .Select(de => new
+                {
                     de.Employee.Id,
-                    FullName = de.Employee.Person.FirstName 
-                               + " " 
-                               + de.Employee.Person.LastName
+                    FullName = de.Employee.Person.FirstName + " " + de.Employee.Person.LastName
                 })
                 .FirstOrDefault()
         })
@@ -75,14 +74,18 @@ app.MapGet("/api/devices/{id:int}", async (int id, MasterContext db, Cancellatio
         return Results.NotFound();
     
     JsonElement props;
-    try 
+    try
     {
-        props = JsonSerializer.Deserialize<JsonElement>(raw.AdditionalProperties)!;
+        using var doc = JsonDocument.Parse(raw.AdditionalProperties);
+        props = doc.RootElement.Clone(); 
     }
     catch (JsonException)
     {
-        props = default;
+        // on invalid JSON, fallback to an empty object
+        using var empty = JsonDocument.Parse("{}");
+        props = empty.RootElement.Clone();
     }
+
     
     var dto = new DeviceDetailDto
     {
